@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 //Components
-import Counter from './components/Counter'
-import Calculater from './components/Calculater'
+import Counter from './pages/index/components/counter/Counter'
+import Calculater from './pages/index/components/calculater/Calculater'
 
 //Pages
 import MainPage from './pages/index/index'

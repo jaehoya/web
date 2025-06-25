@@ -1,4 +1,4 @@
-@use '../../../assets/styles/color.scss';
+@use '../../../assets/styles/color.scss' as color;
 
 $HEADER-HEIGHT: 56px;
 $FOOTER-HEIGHT: 50px;
@@ -41,12 +41,12 @@ $NAVIGATION-HEIGHT: 50px;
                 &__title {
                     margin-bottom: 4px;
 
-                    color: $color-white-000; // CSS COLOR CODE 변수화 작업 설명 예정
+                    color: color.$color-white-000; // CSS COLOR CODE 변수화 작업 설명 예정
                     font-size: 3rem;
                     font-weight: 700;
                 }
                 &__desc {
-                    color: $color-white-000;
+                    color: color.$color-white-000;
                     margin-bottom: 32px;
                 }
             }
