@@ -14,36 +14,44 @@ import Card from './components/card/Card';
 // types
 import type { CardDTO } from './types/card';
 
+
 function MainPage() {
-	const [imgUrls, setImgUrls] = useState([]);
+	const [imgUrls, setImgUrls] = useState<CardDTO[]>([]);
 	
 	const getData = async () => {
 		// 데이터 가져오는 함수
 		const API_URL = 'https://api.unsplash.com/search/photos'; // 예시 API URL
 		const API_KEY = 'kAZ7kFJXaXh8ahSJkjW0ryRcBNJYnjtvkZsExSsSozs'; // Unsplash API 키
-		const PER_PAGE = 30; // 페이지당 이미지 수
-		
+		const PER_PAGE = 20; // 페이지당 이미지 수
+
 		const searchValue = 'Korea'; // 검색어, 실제로는 사용자 입력값을 사용
 		const pageValue = 100; // 페이지 번호, 실제로는 사용자 입력값을 사용
 		try {
 			const res = await axios.get(`${API_URL}?query=${searchValue}&client_id=${API_KEY}&page=${pageValue}&per_page=${PER_PAGE}`);
-			console.log(res);
-			console.log("데이터 가져오기 성공:");
-
-			res.status === 200 ? setImgUrls(res.data.results) : console.error('이미지 URL을 가져오는 데 실패했습니다.');
-			
+			if (res.status === 200) {
+				// CardDTO 타입에 맞게 변환
+				const cards: CardDTO[] = res.data.results.map((item: any) => ({
+					...item,
+					urls: item.urls ?? { small: '' },
+					alt_description: item.alt_description ?? '',
+				}));
+				setImgUrls(cards);
+			} else {
+				console.error('이미지 URL을 가져오는 데 실패했습니다.');
+			}
 		} catch (error) {
 			console.error('API 요청 실패:', error);
 		}
 	}
+	
 	const cardList = imgUrls.map((card: CardDTO) => {
 		return (
-			<Card data={card} key={card}/>
+			<Card data={card} key={card.id}/>
 		);
 	})
 
 	useEffect(() => {
-		console.log('ueseEffect 실행');
+		console.log('useEffect 실행');
 		getData();
 	}, []);
 
