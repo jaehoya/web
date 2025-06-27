@@ -1,5 +1,6 @@
 // MainPage.tsx
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useImageStore } from '../../store/useImagegStore';
 import { Link } from 'react-router-dom';
 import styles from './styles/index.module.scss'
 import axios from 'axios';
@@ -17,47 +18,24 @@ import type { CardDTO } from './types/card';
 
 function MainPage() {
 	const [imgUrls, setImgUrls] = useState<CardDTO[]>([]);
-	
-	const getData = async () => {
-		// 데이터 가져오는 함수
-		const API_URL = 'https://api.unsplash.com/search/photos'; // 예시 API URL
-		const API_KEY = 'kAZ7kFJXaXh8ahSJkjW0ryRcBNJYnjtvkZsExSsSozs'; // Unsplash API 키
-		const PER_PAGE = 20; // 페이지당 이미지 수
 
-		const searchValue = 'Korea'; // 검색어, 실제로는 사용자 입력값을 사용
-		const pageValue = 100; // 페이지 번호, 실제로는 사용자 입력값을 사용
-		try {
-			const res = await axios.get(`${API_URL}?query=${searchValue}&client_id=${API_KEY}&page=${pageValue}&per_page=${PER_PAGE}`);
-			if (res.status === 200) {
-				// CardDTO 타입에 맞게 변환
-				const cards: CardDTO[] = res.data.results.map((item: any) => ({
-					...item,
-					urls: item.urls ?? { small: '' },
-					alt_description: item.alt_description ?? '',
-				}));
-				setImgUrls(cards);
-			} else {
-				console.error('이미지 URL을 가져오는 데 실패했습니다.');
-			}
-		} catch (error) {
-			console.error('API 요청 실패:', error);
-		}
-	}
-	
-	const cardList = imgUrls.map((card: CardDTO) => {
+	const [search, setSearch] = useState('Korea')
+	const [page, setPage] = useState(1)
+	const { images, loading, error, fetchImages } = useImageStore()
+
+	const cardList = images.map((card: CardDTO) => {
 		return (
-			<Card data={card} key={card.id}/>
+			<Card data={card} key={card.id} />
 		);
 	})
 
 	useEffect(() => {
-		console.log('useEffect 실행');
-		getData();
-	}, []);
+		fetchImages(search, page)
+	}, [search, page, fetchImages])
 
 
 
-//지금 develope-zustand 브랜치를 새롭게 만들었고 여기서 개발할다가 안 되면 돌아갈 예정.
+	//지금 develope-zustand 브랜치를 새롭게 만들었고 여기서 개발할다가 안 되면 돌아갈 예정.
 
 
 
@@ -83,10 +61,16 @@ function MainPage() {
 						</nav>
 					</div>
 				</div>
-				<div className={styles.page__contents__imageBox}>{cardList}</div>
+				<div className={styles.page__contents__imageBox}>
+					{loading && <div>로딩중...</div>}
+					{error && <div>에러: {error}</div>}
+					{images.map((card: CardDTO) => (
+						<Card data={card} key={card.id} />
+					))}
+				</div>
 			</div>
 			{/* 공통 푸터 UI 부분 */}
-			<CommonFooter/>
+			<CommonFooter />
 		</div>
 	)
 }
