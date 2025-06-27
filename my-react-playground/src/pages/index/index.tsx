@@ -55,6 +55,12 @@ function MainPage() {
 		getData();
 	}, []);
 
+
+
+//지금 develope-zustand 브랜치를 새롭게 만들었고 여기서 개발할다가 안 되면 돌아갈 예정.
+
+
+
 	return (
 		<div className={styles.page}>
 			{/* 공통 헤더 UI 부분  */}
