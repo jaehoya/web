@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { useImageStore } from '../../store/useImagegStore';
 import { Link } from 'react-router-dom';
 import styles from './styles/index.module.scss'
-import axios from 'axios';
 
 // components
 import CommonHeader from '../../components/common/header/CommonHeader';
@@ -17,26 +16,15 @@ import type { CardDTO } from './types/card';
 
 
 function MainPage() {
-	const [imgUrls, setImgUrls] = useState<CardDTO[]>([]);
-
+	// 상태 관리 훅을 사용하여 이미지 데이터를 가져옵니다.
 	const [search, setSearch] = useState('Korea')
 	const [page, setPage] = useState(1)
 	const { images, loading, error, fetchImages } = useImageStore()
 
-	const cardList = images.map((card: CardDTO) => {
-		return (
-			<Card data={card} key={card.id} />
-		);
-	})
 
 	useEffect(() => {
 		fetchImages(search, page)
 	}, [search, page, fetchImages])
-
-
-
-	//지금 develope-zustand 브랜치를 새롭게 만들었고 여기서 개발할다가 안 되면 돌아갈 예정.
-
 
 
 	return (

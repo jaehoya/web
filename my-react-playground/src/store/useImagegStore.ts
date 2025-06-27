@@ -18,7 +18,7 @@ export const useImageStore = create<ImageState>((set) => ({
     try {
       const API_URL = 'https://api.unsplash.com/search/photos'
       const API_KEY = 'kAZ7kFJXaXh8ahSJkjW0ryRcBNJYnjtvkZsExSsSozs'
-      const PER_PAGE = 20
+      const PER_PAGE = 30
       const res = await axios.get(`${API_URL}?query=${search}&client_id=${API_KEY}&page=${page}&per_page=${PER_PAGE}`)
       set({ images: res.data.results, loading: false })
     } catch (e: any) {
