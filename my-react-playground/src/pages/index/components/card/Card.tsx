@@ -2,18 +2,18 @@ import styles from './Card.module.scss';
 import type { CardDTO } from '../../types/card';
 
 interface Props {
-   data: CardDTO;
+   data: CardDTO
 }
 
-function Card({data}: Props) {
+function Card({ data }: Props) {
    const openDialog = () => {
-      console.log('Open dialog');
+      console.log('Card clicked:', data);
    }
-  return (
-    <div className={styles.card} onClick={openDialog}>
+   return (
+      <div className={styles.card} onClick={openDialog}>
          <img src={data.urls?.small ?? ''} alt={data.alt_description ?? ''} className={styles.card__image} />
       </div>
-  )
+   )
 }
 
 export default Card;
