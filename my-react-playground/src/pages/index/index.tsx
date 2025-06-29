@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useImageStore } from '../../store/useImagegStore';
 import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
+// styles
 import styles from './styles/index.module.scss'
 
 // components
@@ -18,20 +20,23 @@ import type { CardDTO } from './types/card';
 
 function MainPage() {
 	// 상태 관리 훅을 사용하여 이미지 데이터를 가져옵니다.
-	const [search, setSearch] = useState('Korea')
-	const [page, setPage] = useState(1)
-	const { images, loading, error, fetchImages } = useImageStore()
+
+	const { images, loading, error, fetchImages, searchValue, page, setSearchValue, setPage } = useImageStore()
 	const [imgData, setImgData] = useState<CardDTO | null>(null)
 	const [open, setOpen] = useState<boolean>(false)
 
-	const CARD_LIST = images.map((card: CardDTO) => {
-		return <Card data={card} key={card.id} handleDialog={setOpen} handleSetData={setImgData} />
-	})
 
+	const CARD_LIST = useMemo(() => {
+		if (loading) return <div>Loading...</div>
+		if (error) return <div>Error: {error}</div>
+		return images.map((card: CardDTO) => {
+			return <Card data={card} key={card.id} handleDialog={setOpen} handleSetData={setImgData} />
+		})
+	}, [images, setOpen, setImgData, loading, error])
 
 	useEffect(() => {
-		fetchImages(search, page)
-	}, [search, page, fetchImages])
+		fetchImages(searchValue, page)
+	}, [searchValue, page, fetchImages])
 
 
 	return (

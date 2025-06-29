@@ -6,6 +6,10 @@ interface ImageState {
   images: CardDTO[]
   loading: boolean
   error: string | null
+  searchValue: string
+  page: number
+  setSearchValue: (value: string) => void
+  setPage: (value: number) => void
   fetchImages: (search: string, page: number) => Promise<void>
 }
 
@@ -13,6 +17,10 @@ export const useImageStore = create<ImageState>((set) => ({
   images: [],
   loading: false,
   error: null,
+  searchValue: 'Korea',
+  page: 1,
+  setSearchValue: (value: string) => set({ searchValue: value }),
+  setPage: (value: number) => set({ page: value }),
   fetchImages: async (search, page) => {
     set({ loading: true, error: null })
     try {
@@ -21,7 +29,7 @@ export const useImageStore = create<ImageState>((set) => ({
       const PER_PAGE = 30
       const res = await axios.get(`${API_URL}?query=${search}&client_id=${API_KEY}&page=${page}&per_page=${PER_PAGE}`)
       set({ images: res.data.results, loading: false })
-      console.log('Fetched images:', res.data.results)
+      
     } catch (e: any) {
       set({ error: e.message, loading: false })
     }
