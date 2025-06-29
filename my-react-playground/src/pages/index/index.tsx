@@ -10,6 +10,7 @@ import CommonSerachBar from '../../components/common/searchBar/CommonSerachBar';
 import CommonNav from '../../components/common/navigation/CommonNav';
 import CommonFooter from '../../components/common/footer/CommonFooter';
 import Card from './components/card/Card';
+import CommonDialog from '../../components/common/dialog/CommonDialog';
 
 // types
 import type { CardDTO } from './types/card';
@@ -20,6 +21,12 @@ function MainPage() {
 	const [search, setSearch] = useState('Korea')
 	const [page, setPage] = useState(1)
 	const { images, loading, error, fetchImages } = useImageStore()
+	const [imgData, setImgData] = useState<CardDTO | null>(null)
+	const [open, setOpen] = useState<boolean>(false)
+
+	const CARD_LIST = images.map((card: CardDTO) => {
+		return <Card data={card} key={card.id} handleDialog={setOpen} handleSetData={setImgData} />
+	})
 
 
 	useEffect(() => {
@@ -50,15 +57,12 @@ function MainPage() {
 					</div>
 				</div>
 				<div className={styles.page__contents__imageBox}>
-					{loading && <div>로딩중...</div>}
-					{error && <div>에러: {error}</div>}
-					{images.map((card: CardDTO) => (
-						<Card data={card} key={card.id} />
-					))}
+					{CARD_LIST}
 				</div>
 			</div>
 			{/* 공통 푸터 UI 부분 */}
 			<CommonFooter />
+			{open && <CommonDialog data={imgData} handleDialog={setOpen} />}
 		</div>
 	)
 }

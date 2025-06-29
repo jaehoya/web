@@ -21,6 +21,7 @@ export const useImageStore = create<ImageState>((set) => ({
       const PER_PAGE = 30
       const res = await axios.get(`${API_URL}?query=${search}&client_id=${API_KEY}&page=${page}&per_page=${PER_PAGE}`)
       set({ images: res.data.results, loading: false })
+      console.log('Fetched images:', res.data.results)
     } catch (e: any) {
       set({ error: e.message, loading: false })
     }
