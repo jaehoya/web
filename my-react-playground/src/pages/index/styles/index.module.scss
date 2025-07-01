@@ -22,6 +22,7 @@ $NAVIGATION-HEIGHT: 50px;
         width: 100%;
         height: calc(100% - $HEADER-HEIGHT - $NAVIGATION-HEIGHT - $FOOTER-HEIGHT);
 
+       
         &__introBox {
             display: flex;
             align-items: center;

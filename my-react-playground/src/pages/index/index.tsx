@@ -55,7 +55,7 @@ function MainPage() {
 						</span>
 						{/* 검색창 UI 부분 */}
 						<CommonSerachBar />
-						<nav>
+						<nav >
 							<Link to="/counter">Counter</Link> |{" "}
 							<Link to="/calculater">Calculater</Link>
 						</nav>

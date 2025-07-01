@@ -13,7 +13,7 @@ function CommonHeader() {
                 <button className={styles.header__profileBox__button} >
                     북마크
                 </button>
-                <span className={styles.header__profileBox__userName}>이재호 | _jaeh_o@instagram</span>
+                <span className={styles.header__profileBox__userName}>이재호 | _jaeh_o @instagram</span>
             </div>
         </header>
     )
