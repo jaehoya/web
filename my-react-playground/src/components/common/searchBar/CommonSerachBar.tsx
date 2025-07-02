@@ -5,7 +5,7 @@ import { useState } from 'react';
 function CommonSerachBar() {
    const [value, setValue] = useState('');
    const setSearchValue = useImageStore(state => state.setSearchValue);
-
+   const setPage = useImageStore(state => state.setPage);
    const handleSearch = () => {
       if (!value.trim()) return;
       setSearchValue(value);
@@ -15,6 +15,7 @@ function CommonSerachBar() {
    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
          handleSearch();
+         setPage(1);
       }
    };
 

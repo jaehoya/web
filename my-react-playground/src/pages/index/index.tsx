@@ -13,6 +13,7 @@ import CommonNav from '../../components/common/navigation/CommonNav';
 import CommonFooter from '../../components/common/footer/CommonFooter';
 import Card from './components/card/Card';
 import CommonDialog from '../../components/common/dialog/CommonDialog';
+import Loading from '../index/components/loading/Loading';
 
 // types
 import type { CardDTO } from './types/card';
@@ -27,8 +28,8 @@ function MainPage() {
 
 
 	const CARD_LIST = useMemo(() => {
-		if (loading) return <div>Loading...</div>
-		if (error) return <div>Error: {error}</div>
+		if (loading) return <Loading />;
+		if (error) return <div>Error: {error}</div>;
 		return images.map((card: CardDTO) => {
 			return <Card data={card} key={card.id} handleDialog={setOpen} handleSetData={setImgData} />
 		})

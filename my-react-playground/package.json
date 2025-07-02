@@ -9,9 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "add": "^2.0.6",
     "axios": "^1.10.0",
+    "pnpm": "^10.12.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-hot-toast": "^2.5.2",
     "react-router-dom": "^7.6.2",
     "zustand": "^5.0.6"
   },
